@@ -41,12 +41,6 @@ namespace ErrorHanding
             if (env.IsDevelopment())
             {
 
-                //app.UseDatabaseErrorPage();
-
-
-
-
-
 
 
 
@@ -65,15 +59,7 @@ namespace ErrorHanding
             {
                 app.UseHsts();
             }
-            app.UseExceptionHandler(context =>
-            {
-                context.Run(async page =>
-                {
-                    page.Response.StatusCode = 500;
-                    page.Response.ContentType = "text/html";
-                    await page.Response.WriteAsync($"<html><head></head></h1>Hata var: {page.Response.StatusCode}</h1></html>");
-                });
-            });
+        
 
 
 
