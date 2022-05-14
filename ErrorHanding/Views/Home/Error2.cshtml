@@ -1,7 +1,11 @@
 ﻿
 @{
-    ViewData["Title"] = "Error2";
+    // as keyword'ü dönüştürme için kullanılmaktadır. is keyword'ü ise geriye true veya false döner 
+    Exception ex = ViewData["exception"] as Exception;
+    ViewData["Title"] = "Error1";
 }
 
-<h1>Error2</h1>
+<h1>Error1</h1>
 
+<h2>Hata mesajı: @ex.Message</h2>
+<h3>Hata sayfası:@ViewData["Url"]</h3>
