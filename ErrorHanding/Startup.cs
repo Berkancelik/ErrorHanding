@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,13 +34,22 @@ namespace ErrorHanding
 
 
 
+        //Request ----------------------[DeveloperExceptonPage]--------------[UseExceptionHandler]--------[UseStatusCode]------> Response
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                //Request ----------------------[DeveloperExceptonPage]--------------[UseExceptionHandler]--------------> Response
-                app.UseDeveloperExceptionPage();
+                //// 1. Yol
+                //app.UseDeveloperExceptionPage();
+                //// 2.Yol
+                //app.UseStatusCodePages("text/plain","Bir hata var. Durum Kodu: {0}");
+                ////3.Yol
+                app.UseStatusCodePages(async context =>
+                {
+                    context.HttpContext.Response.ContentType = "text/plain";
+                    await context.HttpContext.Response.WriteAsync($"Bir Hata var. Durum kodu:{context.HttpContext.Response.StatusCode}");
+                });
             }
             else
             {
