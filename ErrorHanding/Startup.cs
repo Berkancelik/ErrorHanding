@@ -38,14 +38,15 @@ namespace ErrorHanding
         {
             if (env.IsDevelopment())
             {
-                //Request ----------------------[DeveloperExceptonPage]----------------------------> Response
+                //Request ----------------------[DeveloperExceptonPage]--------------[UseExceptionHandler]--------------> Response
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            app.UseExceptionHandler("/Home/Error");
+
 
 
 
