@@ -34,17 +34,27 @@ namespace ErrorHanding
 
 
 
-        //Request ----------------------[DeveloperExceptonPage]--------------[UseExceptionHandler]--------[UseStatusCode]------> Response
+        //Request ----------------------[DeveloperExceptonPage]--------------[UseExceptionHandler]--------[UseStatusCode]----[UseDatabaseErrorPage]--> Response
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                //// 1. Yol
-                //app.UseDeveloperExceptionPage();
-                //// 2.Yol
-                //app.UseStatusCodePages("text/plain","Bir hata var. Durum Kodu: {0}");
-                ////3.Yol
+
+                //app.UseDatabaseErrorPage();
+
+
+
+
+
+
+
+
+                // 1. Yol
+                app.UseDeveloperExceptionPage();
+                // 2.Yol
+                app.UseStatusCodePages("text/plain", "Bir hata var. Durum Kodu: {0}");
+                //3.Yol
                 app.UseStatusCodePages(async context =>
                 {
                     context.HttpContext.Response.ContentType = "text/plain";
@@ -55,7 +65,15 @@ namespace ErrorHanding
             {
                 app.UseHsts();
             }
-            app.UseExceptionHandler("/Home/Error");
+            app.UseExceptionHandler(context =>
+            {
+                context.Run(async page =>
+                {
+                    page.Response.StatusCode = 500;
+                    page.Response.ContentType = "text/html";
+                    await page.Response.WriteAsync($"<html><head></head></h1>Hata var: {page.Response.StatusCode}</h1></html>");
+                });
+            });
 
 
 
