@@ -32,7 +32,6 @@ namespace ErrorHanding.Controllers
             return View();
         }
 
-        [CustomHandleExceptionFilterAttribute(ErrorPage = "Error1")]
         public IActionResult Privacy()
         {
             throw new FileNotFoundException();

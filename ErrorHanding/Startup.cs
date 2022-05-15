@@ -1,3 +1,4 @@
+using ErrorHanding.Filter;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,14 +15,8 @@ namespace ErrorHanding
 {
     public class Startup
     {
-
-
-        
-
         public Startup(IConfiguration configuration)
         {
-
-
             Configuration = configuration;
         }
 
@@ -30,6 +25,10 @@ namespace ErrorHanding
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new CustomHandleExceptionFilterAttribute() { ErrorPage="error1"});
+            });
         }
 
 
@@ -40,9 +39,6 @@ namespace ErrorHanding
         {
             if (env.IsDevelopment())
             {
-
-
-
 
                 // 1. Yol
                 app.UseDeveloperExceptionPage();
@@ -59,7 +55,7 @@ namespace ErrorHanding
             {
                 app.UseHsts();
             }
-        
+
 
 
 
